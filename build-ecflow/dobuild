@@ -1,0 +1,1 @@
+docker build -t="myggen/ecflow-5.2.3_bionic:0.1" .
