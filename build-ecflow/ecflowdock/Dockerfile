@@ -1,8 +1,9 @@
 FROM ubuntu:18.04
 MAINTAINER  Espen Myrland "espenmyr@gmail.com"
 
-RUN apt-get update
+RUN apt-get update    
 RUN apt-get install -y apt-utils
+
 RUN apt-get install -y libterm-readline-perl-perl
 RUN apt-get install -y libterm-readline-gnu-perl
 #RUN apt-get install -y dialog
@@ -19,7 +20,9 @@ RUN apt-get install -y build-essential
 RUN apt-get install -y python-dev
 RUN apt-get install -y python3-dev
 
-
+RUN apt-get install -qqy x11-apps
+ENV DISPLAY :0
+    
 # Thanks for build.sh Jan    
 ADD build-ecflow.sh /root/build-ecflow.sh
 RUN /root/build-ecflow.sh
