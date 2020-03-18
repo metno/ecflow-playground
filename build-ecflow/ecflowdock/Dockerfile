@@ -1,4 +1,5 @@
 FROM ubuntu:18.04
+#RUN adduser homeplace
 MAINTAINER  Espen Myrland "espenmyr@gmail.com"
 
 RUN apt-get update    
@@ -20,7 +21,8 @@ RUN apt-get install -y build-essential
 RUN apt-get install -y python-dev
 RUN apt-get install -y python3-dev
 
-RUN apt-get install -qqy x11-apps
+#RUN apt-get install -qqy x11-apps
+RUN apt-get install -qqy telnet
 ENV DISPLAY :0
     
 # Thanks for build.sh Jan    

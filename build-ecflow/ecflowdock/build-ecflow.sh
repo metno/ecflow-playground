@@ -18,7 +18,7 @@ fi
 
 if [ -z ${ECFLOW_INSTALL_DIR:-} ]
 then
-    ECFLOW_INSTALL_DIR=~/opt/ecflow-$ECFLOW_VERSION
+    ECFLOW_INSTALL_DIR=/opt/ecflow-$ECFLOW_VERSION
 fi
 
 
