@@ -1,0 +1,64 @@
++ set -u
++ set -e
+++ whoami
++ BASE_DIR=/tmp/ecflow-building.espen
++ CMAKE_VERSION=3.16.4
++ BOOST_VERSION=1.72.0
++ '[' -z ']'
++ echo foo
+foo
++ ECFLOW_VERSION=5.2.3
++ '[' -z ']'
++ ECFLOW_INSTALL_DIR=/home/espen/opt/ecflow-5.2.3
++ echo ECFLOW_VERSION=5.2.3
+ECFLOW_VERSION=5.2.3
++ echo ECFLOW_INSTALL_DIR=/home/espen/opt/ecflow-5.2.3
+ECFLOW_INSTALL_DIR=/home/espen/opt/ecflow-5.2.3
++ QT_VERSION=5.14.1
++ OpenSSL=0
++ mkdir -p /home/espen/opt/ecflow-5.2.3
++ CMAKE_DIR=cmake-3.16.4
++ CMAKE_FILE=cmake-3.16.4.tar.gz
++ CMAKE_URL=https://github.com/Kitware/CMake/releases/download/v3.16.4/cmake-3.16.4.tar.gz
+++ echo 1.72.0
+++ tr . _
++ BOOST_UNDERSCORE_VERSION=1_72_0
++ BOOST_DIR=boost_1_72_0
++ BOOST_FILE=boost_1_72_0.tar.gz
++ BOOST_SRC_URL=https://dl.bintray.com/boostorg/release/1.72.0/source/boost_1_72_0.tar.gz
++ ECFLOW_RELATIVE_DIR=ecFlow-5.2.3-Source
++ ECFLOW_FILE=ecFlow-5.2.3-Source.tar.gz
++ ECFLOW_SRC_URL='https://confluence.ecmwf.int/download/attachments/8650755/ecFlow-5.2.3-Source.tar.gz?api=v2'
+++ lsb_release -si
++ DISTRIBUTOR=Ubuntu
+++ lsb_release -sr
++ RELEASE=18.04
++ '[' Ubuntu == Ubuntu -a 18.04 == 18.04 ']'
++ DISTRIBUTION='Ubuntu 18.04'
++ SRC_DIR=/tmp/ecflow-building.espen/src
++ mkdir -vp /tmp/ecflow-building.espen/src
+mkdir: created directory '/tmp/ecflow-building.espen'
+mkdir: created directory '/tmp/ecflow-building.espen/src'
++ UNTAR_DIR=/tmp/ecflow-building.espen/untar
++ mkdir -vp /tmp/ecflow-building.espen/untar
+mkdir: created directory '/tmp/ecflow-building.espen/untar'
++ BUILD_DIR=/tmp/ecflow-building.espen/build
++ mkdir -vp /tmp/ecflow-building.espen/build
+mkdir: created directory '/tmp/ecflow-building.espen/build'
++ INSTALL_DIR=/tmp/ecflow-building.espen/install
++ mkdir -vp /tmp/ecflow-building.espen/install
+mkdir: created directory '/tmp/ecflow-building.espen/install'
++ DOWNLOAD_DIR=/tmp/ecflow-building.espen/download
++ mkdir -vp /tmp/ecflow-building.espen/download
+mkdir: created directory '/tmp/ecflow-building.espen/download'
+++ cat /proc/cpuinfo
+++ grep processor
+++ cut -d: -f1
+++ wc -l
++ CORES=8
++ '[' '!' -f /tmp/ecflow-building.espen/src/cmake-3.16.4.tar.gz ']'
++ curl -L https://github.com/Kitware/CMake/releases/download/v3.16.4/cmake-3.16.4.tar.gz -o /tmp/ecflow-building.espen/download/cmake-3.16.4.tar.gz
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100   607  100   607    0     0   1759      0 --:--:-- --:--:-- --:--:--  1759
+  0 8899k    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0 22 8899k   22 2039k    0     0  1107k      0  0:00:08  0:00:01  0:00:07 2204k 53 8899k   53 4732k    0     0  1665k      0  0:00:05  0:00:02  0:00:03 2457k
