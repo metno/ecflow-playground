@@ -1,1 +1,0 @@
-docker build -t="myggen/dev-bionic:0.1" .
