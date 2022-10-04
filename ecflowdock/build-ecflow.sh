@@ -7,13 +7,16 @@ set -e   # Exit immediately if a command exits with a non-zero status
 
 BASE_DIR=/tmp/ecflow-building.$(whoami)
 
-CMAKE_VERSION="3.16.4"  # https://cmake.org/download/
-BOOST_VERSION=1.72.0    # https://www.boost.org/users/download/
+#CMAKE_VERSION="3.16.4"  # https://cmake.org/download/
+CMAKE_VERSION="3.24.2"  # https://cmake.org/download/
+
+#BOOST_VERSION=1.72.0    # https://www.boost.org/users/download/
+BOOST_VERSION=1.79.0    # https://www.boost.org/users/download/
 
 if [ -z ${ECFLOW_VERSION:-} ]
 then
-    echo "foo"
-    ECFLOW_VERSION=5.2.3    # https://confluence.ecmwf.int/display/ECFLOW/Releases
+    ECFLOW_VERSION=5.8.4    # https://confluence.ecmwf.int/display/ECFLOW/Releases
+    #ECFLOW_VERSION=5.2.3
 fi
 
 if [ -z ${ECFLOW_INSTALL_DIR:-} ]
@@ -25,8 +28,6 @@ fi
 echo "ECFLOW_VERSION=$ECFLOW_VERSION"
 echo "ECFLOW_INSTALL_DIR=$ECFLOW_INSTALL_DIR"
 
-
-QT_VERSION=5.14.1       # https://www.qt.io/offline-installers
 OpenSSL=0
 
 
@@ -40,18 +41,18 @@ CMAKE_URL="https://github.com/Kitware/CMake/releases/download/v${CMAKE_VERSION}/
 BOOST_UNDERSCORE_VERSION=`echo $BOOST_VERSION | tr '.' '_'`
 BOOST_DIR="boost_${BOOST_UNDERSCORE_VERSION}"
 BOOST_FILE=$BOOST_DIR.tar.gz
-BOOST_SRC_URL=https://dl.bintray.com/boostorg/release/$BOOST_VERSION/source/$BOOST_FILE
-
-
+#BOOST_SRC_URL=https://boostorg.jfrog.io/artifactory/main/release/$BOOST_VERSION/source/$BOOST_FILE
+#BOOST_SRC_URL=https://sourceforge.net/projects/boost/files/boost/$BOOST_VERSION/boost_$BOOST_VERSION.tar.gz/download
+BOOST_SRC_URL=https://sourceforge.net/projects/boost/files/boost/1.79.0/boost_1_79_0.tar.gz/download
 ECFLOW_RELATIVE_DIR="ecFlow-${ECFLOW_VERSION}-Source"
 ECFLOW_FILE=$ECFLOW_RELATIVE_DIR.tar.gz
 ECFLOW_SRC_URL=https://confluence.ecmwf.int/download/attachments/8650755/$ECFLOW_FILE?api=v2
 
 
 DISTRIBUTOR=`lsb_release -si` || exit # eg Ubuntu or CentOS
-RELEASE=`lsb_release -sr`     || exit # eg 18.04 or 7.6.1810
-if [ "$DISTRIBUTOR" == "Ubuntu" -a "$RELEASE" == "18.04" ] ; then
-    DISTRIBUTION="Ubuntu 18.04"
+RELEASE=`lsb_release -sr`     || exit # eg 22.04 or 7.6.1810
+if [ "$DISTRIBUTOR" == "Ubuntu" -a "$RELEASE" == "22.04" ] ; then
+    DISTRIBUTION="Ubuntu 22.04"
 # sudo apt install -y qt5-default libqt5svg5-dev libqt5charts5-dev python3-dev
     # sudo apt -y install gcc
 elif [ "$DISTRIBUTOR" == "CentOS" -a "7" '<' "$RELEASE" -a "$RELEASE" '<' "8" ] ; then
@@ -87,7 +88,7 @@ if [ ! -d $BUILD_DIR/$CMAKE_DIR ] ; then
     && mv $UNTAR_DIR/$CMAKE_DIR $BUILD_DIR
 fi
 if [ ! -d $INSTALL_DIR/cmake ] ; then
-    if [ "$DISTRIBUTION" == "Ubuntu 18.04" ] ; then
+    if [ "$DISTRIBUTION" == "Ubuntu 22.04" ] ; then
         cd $BUILD_DIR/$CMAKE_DIR \
         && ./bootstrap --prefix=$INSTALL_DIR/cmake \
         && make -j$CORES \
@@ -127,7 +128,7 @@ fi
 
 
 export BOOST_ROOT=$BUILD_DIR/$BOOST_DIR
-if [ "$DISTRIBUTION" == "Ubuntu 18.04" ] ; then
+if [ "$DISTRIBUTION" == "Ubuntu 22.04" ] ; then
     cd $BOOST_ROOT &&  ./bootstrap.sh
 elif [ "$DISTRIBUTION" == "CentOS 7" ] ; then
     cd $BOOST_ROOT &&  scl enable devtoolset-8 ./bootstrap.sh
@@ -138,7 +139,7 @@ export WK=$BUILD_DIR/$ECFLOW_RELATIVE_DIR
 export PATH="$PATH:$BOOST_ROOT/tools/build/src/engine/"  #  Make bjam accessible from $PATH
 
 
-if [ "$DISTRIBUTION" == "Ubuntu 18.04" ] ; then
+if [ "$DISTRIBUTION" == "Ubuntu 22.04" ] ; then
     cd $BOOST_ROOT &&  time $WK/build_scripts/boost_build.sh  
 elif [ "$DISTRIBUTION" == "CentOS 7" ] ; then
     cd $BOOST_ROOT &&  scl enable devtoolset-8 "time $WK/build_scripts/boost_build.sh"
@@ -149,7 +150,7 @@ cd $WK
 mkdir -p build; cd build
 
 
-if [ "$DISTRIBUTION" == "Ubuntu 18.04" ] ; then
+if [ "$DISTRIBUTION" == "Ubuntu 22.04" ] ; then
     cmake -DCMAKE_INSTALL_PREFIX=$ECFLOW_INSTALL_DIR -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_CXX_FLAGS=-w -DENABLE_SERVER=on -DENABLE_PYTHON=on -DENABLE_UI=on -DENABLE_GUI=off \
     -DPYTHON_EXECUTABLE=/usr/bin/python3 \
@@ -170,11 +171,4 @@ elif [ "$DISTRIBUTION" == "CentOS 7" ] ; then
 fi
 
 exit
-
-# QT
-# QT_SHORT_VERSION=`echo $QT_VERSION | sed -e "s/\.[[:digit:]]\+$//"`
-# QT_SRC_FILE="qt-opensource-linux-x64-$QT_VERSION.run"
-# QT_SRC_URL="http://download.qt.io/official_releases/qt/$QT_SHORT_VERSION/$QT_VERSION/$QT_SRC_FILE"
-# test -f $QT_SRC_DIR/$QT_SRC_FILE || curl -L $QT_SRC_URL -o $QT_SRC_DIR/$QT_SRC_FILE
-# chmod a+x $QT_SRC_DIR/$QT_SRC_FILE
 

@@ -1,1 +1,1 @@
-docker build -t="myggen/ecflow5-bionic:0.1" .
+docker build --no-cache  -t="myggen/ecflow5-jammy:0.1" .
