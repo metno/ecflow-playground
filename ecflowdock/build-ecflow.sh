@@ -40,8 +40,8 @@ CMAKE_URL="https://github.com/Kitware/CMake/releases/download/v${CMAKE_VERSION}/
 BOOST_UNDERSCORE_VERSION=`echo $BOOST_VERSION | tr '.' '_'`
 BOOST_DIR="boost_${BOOST_UNDERSCORE_VERSION}"
 BOOST_FILE=$BOOST_DIR.tar.gz
-BOOST_SRC_URL=https://dl.bintray.com/boostorg/release/$BOOST_VERSION/source/$BOOST_FILE
-
+#BOOST_SRC_URL=https://dl.bintray.com/boostorg/release/$BOOST_VERSION/source/$BOOST_FILE
+BOOST_SRC_URL=https://sourceforge.net/projects/boost/files/boost/1.72.0/boost_1_72_0.tar.gz/download
 
 ECFLOW_RELATIVE_DIR="ecFlow-${ECFLOW_VERSION}-Source"
 ECFLOW_FILE=$ECFLOW_RELATIVE_DIR.tar.gz
