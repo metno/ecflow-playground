@@ -13,7 +13,8 @@ BOOST_VERSION=1.72.0    # https://www.boost.org/users/download/
 if [ -z ${ECFLOW_VERSION:-} ]
 then
     echo "foo"
-    ECFLOW_VERSION=5.2.3    # https://confluence.ecmwf.int/display/ECFLOW/Releases
+    #ECFLOW_VERSION=5.2.3    # https://confluence.ecmwf.int/display/ECFLOW/Releases
+    ECFLOW_VERSION=5.7.2
 fi
 
 if [ -z ${ECFLOW_INSTALL_DIR:-} ]
@@ -50,8 +51,8 @@ ECFLOW_SRC_URL=https://confluence.ecmwf.int/download/attachments/8650755/$ECFLOW
 
 DISTRIBUTOR=`lsb_release -si` || exit # eg Ubuntu or CentOS
 RELEASE=`lsb_release -sr`     || exit # eg 18.04 or 7.6.1810
-if [ "$DISTRIBUTOR" == "Ubuntu" -a "$RELEASE" == "18.04" ] ; then
-    DISTRIBUTION="Ubuntu 18.04"
+if [ "$DISTRIBUTOR" == "Ubuntu" ] ; then
+    DISTRIBUTION="Ubuntu"
 # sudo apt install -y qt5-default libqt5svg5-dev libqt5charts5-dev python3-dev
     # sudo apt -y install gcc
 elif [ "$DISTRIBUTOR" == "CentOS" -a "7" '<' "$RELEASE" -a "$RELEASE" '<' "8" ] ; then
@@ -87,7 +88,7 @@ if [ ! -d $BUILD_DIR/$CMAKE_DIR ] ; then
     && mv $UNTAR_DIR/$CMAKE_DIR $BUILD_DIR
 fi
 if [ ! -d $INSTALL_DIR/cmake ] ; then
-    if [ "$DISTRIBUTION" == "Ubuntu 18.04" ] ; then
+    if [ "$DISTRIBUTION" == "Ubuntu" ] ; then
         cd $BUILD_DIR/$CMAKE_DIR \
         && ./bootstrap --prefix=$INSTALL_DIR/cmake \
         && make -j$CORES \
@@ -127,7 +128,7 @@ fi
 
 
 export BOOST_ROOT=$BUILD_DIR/$BOOST_DIR
-if [ "$DISTRIBUTION" == "Ubuntu 18.04" ] ; then
+if [ "$DISTRIBUTION" == "Ubuntu" ] ; then
     cd $BOOST_ROOT &&  ./bootstrap.sh
 elif [ "$DISTRIBUTION" == "CentOS 7" ] ; then
     cd $BOOST_ROOT &&  scl enable devtoolset-8 ./bootstrap.sh
@@ -138,7 +139,7 @@ export WK=$BUILD_DIR/$ECFLOW_RELATIVE_DIR
 export PATH="$PATH:$BOOST_ROOT/tools/build/src/engine/"  #  Make bjam accessible from $PATH
 
 
-if [ "$DISTRIBUTION" == "Ubuntu 18.04" ] ; then
+if [ "$DISTRIBUTION" == "Ubuntu" ] ; then
     cd $BOOST_ROOT &&  time $WK/build_scripts/boost_build.sh  
 elif [ "$DISTRIBUTION" == "CentOS 7" ] ; then
     cd $BOOST_ROOT &&  scl enable devtoolset-8 "time $WK/build_scripts/boost_build.sh"
@@ -149,7 +150,7 @@ cd $WK
 mkdir -p build; cd build
 
 
-if [ "$DISTRIBUTION" == "Ubuntu 18.04" ] ; then
+if [ "$DISTRIBUTION" == "Ubuntu" ] ; then
     cmake -DCMAKE_INSTALL_PREFIX=$ECFLOW_INSTALL_DIR -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_CXX_FLAGS=-w -DENABLE_SERVER=on -DENABLE_PYTHON=on -DENABLE_UI=on -DENABLE_GUI=off \
     -DPYTHON_EXECUTABLE=/usr/bin/python3 \
