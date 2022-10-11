@@ -15,7 +15,7 @@ BOOST_VERSION=1.79.0    # https://www.boost.org/users/download/
 
 if [ -z ${ECFLOW_VERSION:-} ]
 then
-    ECFLOW_VERSION=5.8.4    # https://confluence.ecmwf.int/display/ECFLOW/Releases
+    ECFLOW_VERSION=5.9.0    # https://confluence.ecmwf.int/display/ECFLOW/Releases
     #ECFLOW_VERSION=5.2.3
 fi
 
